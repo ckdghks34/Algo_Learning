@@ -1,4 +1,4 @@
-package com.ssafy._210201.io;
+package com.ssafy.Live._210201.io;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.ssafy._210201.recursive;
+package com.ssafy.Live._210201.recursive;
 
 import java.util.Scanner;
 

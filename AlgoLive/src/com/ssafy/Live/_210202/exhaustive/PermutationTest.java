@@ -1,4 +1,4 @@
-package com.ssafy._210202.exhaustive;
+package com.ssafy.Live._210202.exhaustive;
 
 import java.util.Arrays;
 
