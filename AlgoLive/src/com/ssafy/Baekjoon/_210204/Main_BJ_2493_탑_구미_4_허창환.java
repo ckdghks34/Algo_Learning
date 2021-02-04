@@ -1,4 +1,4 @@
-package com.ssafy.Baekjoon._210201;
+package com.ssafy.Baekjoon._210204;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,7 +38,6 @@ public class Main_BJ_2493_탑_구미_4_허창환 {
 				r[i-1] =0;
 				s.push(new int[] {i,v});
 			}
-			
 			
 		}
 		
