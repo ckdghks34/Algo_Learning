@@ -38,7 +38,6 @@ public class Main_BJ_2493_탑_구미_4_허창환 {
 				r[i-1] =0;
 				s.push(new int[] {i,v});
 			}
-			
 		}
 		
 		for(int a : r)
