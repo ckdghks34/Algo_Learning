@@ -14,11 +14,15 @@ public class A2_transposeMatrixTest {
 		final int N = arr.length;
 		for (int i = 0; i < N; i++) {
 			for (int j = i+1; j < N; j++) {
-				int temp = arr[i][j];
-				arr[i][j] = arr[j][i];
-				arr[j][i] = temp;
+				swap(i,j);
 			}
 		}
+	}
+	
+	private static void swap(int i , int j) {
+		int temp = arr[i][j];
+		arr[i][j] = arr[j][i];
+		arr[j][i] = temp;
 	}
 	
 	private static void print() {
@@ -30,7 +34,13 @@ public class A2_transposeMatrixTest {
 	public static void main(String[] args) {
 		print();
 		System.out.println("========================");
+		
 		transpose();
+		System.out.println("========================");
+		print();
+		
+		transpose();
+		System.out.println("========================");
 		print();
 	}
 

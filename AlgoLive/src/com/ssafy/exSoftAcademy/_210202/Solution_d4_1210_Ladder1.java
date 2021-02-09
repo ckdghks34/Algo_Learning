@@ -69,6 +69,7 @@ public class Solution_d4_1210_Ladder1 {
 				// 현재 위치에서 왼쪽 값이 1 이고 방문하지 않았다면
 				if(leftcheck() && !visit[x][y-1] ) 
 					y -= 1;
+				
 				// 현재 위치에서 오른쪽 값이 1 이고 방문하지 않았다면
 				else if(rightcheck() && !visit[x][y+1])
 					y += 1;

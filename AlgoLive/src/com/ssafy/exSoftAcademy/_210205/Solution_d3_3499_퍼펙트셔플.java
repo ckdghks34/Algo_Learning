@@ -34,8 +34,10 @@ public class Solution_d3_3499_퍼펙트셔플 {
 					q1.offer(st.nextToken());
 
 			}
+			
 			StringBuilder sb = new StringBuilder();
 			sb.append("#"+tc+" ");
+			
 			while(q.size() != 0 && q.size() != 0)
 			{
 				if(q.size() >0)
