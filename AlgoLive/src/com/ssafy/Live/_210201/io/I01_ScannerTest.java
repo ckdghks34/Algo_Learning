@@ -13,6 +13,7 @@ public class I01_ScannerTest {
 		System.out.println("읽은 실수 : "+sc.nextDouble());
 		System.out.println("읽은 문자열 : "+sc.next());
 		System.out.println("읽은 문자열 : "+sc.nextLine());
+		sc.close();
 	}
 
 }

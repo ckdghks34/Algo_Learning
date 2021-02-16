@@ -1,44 +1,51 @@
-package com.ssafy.Live._210215.exhasutive;
-
-import java.util.Arrays;
+package com.ssafy.Live._210216.exhasutive;
 import java.util.Scanner;
 
-public class P4_PermutationNPTest {
+public class C2_NextPermutationTest {
+	static int N, R;
 	static int[] input;
-	static int N;
+	static int[] P;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		N = sc.nextInt();
+		R = sc.nextInt();
+
 		input = new int[N];
+		P = new int[N]; // N 크기의 flag 배열
 
 		for (int i = 0; i < N; ++i) {
 			input[i] = sc.nextInt();
 		}
 
-		Arrays.sort(input); // 오름차순 정렬하여 가장 작은 순열의 상태로 만듦.
-
+		int cnt = 0;
+		while (++cnt <= R)
+			P[N - cnt] = 1;
+		
 		do {
-			System.out.println(Arrays.toString(input));
-		} while (np());
-
+			for(int i =0 ; i < N; ++i) {
+				if(P[i] == 1) System.out.print(input[i] + " ");
+			}
+			System.out.println();
+		}while(np());
+		
 		sc.close();
 	}
 
 	public static boolean np() {
-		
+
 		// Step1
 		int i = N - 1;
-		while (i > 0 && input[i - 1] >= input[i]) // 꼭대기 위치 i 찾기
+		while (i > 0 && P[i - 1] >= P[i]) // 꼭대기 위치 i 찾기
 			--i;
 
 		// 더 이상 앞자리가 없는 상황 : 현 순열의 상태가 가장 큰 순열(마지막 순열)
 		if (i == 0)
 			return false;
-		
+
 		// Step2
 		int j = N - 1;
-		while (input[i - 1] >= input[j]) // i-1보다 큰 위치j 찾기
+		while (P[i - 1] >= P[j]) // i-1보다 큰 위치j 찾기
 			--j;
 
 		// Step3
@@ -54,8 +61,8 @@ public class P4_PermutationNPTest {
 	}
 
 	private static void swap(int i, int j) {
-		int tmp = input[i];
-		input[i] = input[j];
-		input[j] = tmp;
+		int tmp = P[i];
+		P[i] = P[j];
+		P[j] = tmp;
 	}
 }
