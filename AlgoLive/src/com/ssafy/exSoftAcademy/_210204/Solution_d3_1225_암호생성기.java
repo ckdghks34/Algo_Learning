@@ -18,7 +18,7 @@ public class Solution_d3_1225_암호생성기 {
 
 		for (int tc = 1; tc <= T; ++tc) {
 
-			int tmp = 0;
+			//int tmp = 0;
 			boolean end = false;
 			int test = Integer.parseInt(br.readLine());
 

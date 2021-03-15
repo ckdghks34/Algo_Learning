@@ -61,7 +61,6 @@ public class Solution_d3_6808_규영이와인영이의카드게임 {
 			}
 			if (gsum > isum)
 				score[0]++;
-			else
 				score[1]++;
 			return;
 		}
