@@ -1,13 +1,11 @@
 package com.ssafy.Live._210316.graph;
 
-import java.awt.event.AdjustmentListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-import com.ssafy.Live._210316.graph.G2_AdjListTest.Node;
 
 /*
 7
@@ -62,6 +60,7 @@ public class G1_AdjMatrixTest {
 			
 			// 현재 정점에 관련된 처리
 			System.out.println((char)(current+65));
+			
 			// 인접정점 탐색
 			for(int i =0 ; i < N; i++) {
 				if(adjMatrix[current][i] && !visited[i])
