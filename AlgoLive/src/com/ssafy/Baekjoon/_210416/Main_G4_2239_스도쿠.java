@@ -6,6 +6,31 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+입력
+103000509
+002109400
+000704000
+300502006
+060000050
+700803004
+000401000
+009205800
+804000107
+*/
+
+/*
+143628579
+572139468
+986754231
+391542786
+468917352
+725863914
+237481695
+619275843
+854396127
+*/
+
 public class Main_G4_2239_스도쿠 {
 
 	static int N = 9, count = 0;
@@ -48,6 +73,7 @@ public class Main_G4_2239_스도쿠 {
 			return;
 
 		if (cnt == count) {
+			System.out.println();
 			// map 출력
 			for (int i = 0; i < N; ++i) {
 				for (int j = 0; j < N; ++j) {
@@ -78,6 +104,8 @@ public class Main_G4_2239_스도쿠 {
 			// 현재 좌표에 j값 입력
 			map[y][x] = j;
 			sdoku(start + 1, cnt + 1);
+
+			// 입력한 값이 답이 아닐 수 도 있기 때문에 원상복구
 			map[y][x] = current;
 		}
 	}
