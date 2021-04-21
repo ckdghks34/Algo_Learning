@@ -74,6 +74,7 @@ public class Main_G4_2239_스도쿠 {
 
 		if (cnt == count) {
 			System.out.println();
+			
 			// map 출력
 			for (int i = 0; i < N; ++i) {
 				for (int j = 0; j < N; ++j) {
@@ -93,7 +94,8 @@ public class Main_G4_2239_스도쿠 {
 		// 현재 좌표에 넣을 수 있는 숫자
 		// true : 사용 불가 .. false : 사용 가능
 		boolean[] number = checkRC(x, y);
-
+		
+		
 		for (int j = 1; j <= N; ++j) {
 			int current = map[y][x];
 
@@ -105,7 +107,7 @@ public class Main_G4_2239_스도쿠 {
 			map[y][x] = j;
 			sdoku(start + 1, cnt + 1);
 
-			// 입력한 값이 답이 아닐 수 도 있기 때문에 원상복구
+			// 다음 값 입력을 위해 값 원상복구
 			map[y][x] = current;
 		}
 	}
