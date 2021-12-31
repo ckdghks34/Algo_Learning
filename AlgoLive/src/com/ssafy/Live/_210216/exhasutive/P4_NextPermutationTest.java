@@ -16,7 +16,7 @@ public class P4_NextPermutationTest {
 			input[i] = sc.nextInt();
 		}
 		
-		Arrays.sort(input);
+//		Arrays.sort(input);
 		do {
 			System.out.println(Arrays.toString(input));
 		}while(np());
@@ -26,6 +26,7 @@ public class P4_NextPermutationTest {
 	private static boolean np() {
 		
 		//STEP 1
+		// 뒤에서부터 확인해서 오름차순이 깨지는 인덱스 확인
 		int i=N-1;
 		while(i>0 && input[i-1]>=input[i]) --i;
 		
