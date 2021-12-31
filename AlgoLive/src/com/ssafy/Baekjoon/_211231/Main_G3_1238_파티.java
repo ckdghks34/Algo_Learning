@@ -69,6 +69,7 @@ public class Main_G3_1238_파티 {
 
 			// 가장 가까운 정점 찾기.
 			for (int j = 1; j < N + 1; ++j) {
+
 				if (!visited[j] && distance[start][j] < min) {
 					min = distance[start][j];
 					current = j;
