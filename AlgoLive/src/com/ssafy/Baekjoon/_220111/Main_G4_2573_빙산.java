@@ -25,78 +25,83 @@ public class Main_G4_2573_빙산 {
 		M = Integer.parseInt(st.nextToken());
 		map = new int[N][M];
 
-		int max = -1;
-
 		for (int i = 0; i < N; ++i) {
 			st = new StringTokenizer(br.readLine());
 			for (int j = 0; j < M; ++j) {
 				map[i][j] = Integer.parseInt(st.nextToken());
-				max = Math.max(max, map[i][j]);
 			}
 		}
+
 		int cnt = 0;
-		while ((cnt = SeparateNum()) < 2) {
-			boolean[][] visited = new boolean[N][M];
+		int number = 0;
+		do {
+			// 빙산 구역 세기
+			cnt = iceCounting();
 
-			int count = 0;
-
-			for (int j = 0; j < N; ++j) {
-				for (int k = 0; k < M; ++k) {
-					if (map[j][k] > 0 && !visited[j][k]) {
-						count++;
-						if (count > 1) {
-							bw.write(Integer.toString(cnt));
-							bw.flush();
-							bw.close();
-							br.close();
-							return;
-						}
-						bfs(k, j, visited);
-					}
-				}
+			if (cnt == 0) {
+				number = 0;
+				break;
+			} else if (cnt > 0) {
+				break;
+			} else {
+				// 빙산 녹이기
+				bfs();
 			}
-		}
-		bw.write("0");
+
+			number++;
+		} while (true);
+
+		bw.write(Integer.toString(number));
 		bw.flush();
 		bw.close();
 		br.close();
 	}
 
-	public static int SeparateNum() {
+	// 빙산 구역 세기
+	public static int iceCounting() {
 		boolean[][] visited = new boolean[N][M];
 
 		int cnt = 0;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
 				if (map[i][j] != 0 && !visited[i][j]) {
-					dfs(i, j, visited);
+					dfs(j, i, visited);
 					cnt++;
 				}
+				if (cnt > 1)
+					return cnt;
 			}
 		}
 		return cnt;
 	}
 
 	public static void dfs(int x, int y, boolean[][] visited) {
-		visited[x][y] = true;
+		visited[y][x] = true;
 
 		for (int i = 0; i < 4; i++) {
 			int nx = x + dx[i];
 			int ny = y + dy[i];
 
-			if (nx <= 0 && ny >= 0 && nx < N && ny < N) {
+			if (nx >= 0 && ny >= 0 && nx < M && ny < N) {
 				if (map[ny][nx] != 0 && !visited[ny][nx]) {
 					dfs(nx, ny, visited);
 				}
 			}
 		}
 	}
-
-	public static void bfs(int x, int y, boolean[][] visited) {
+	
+	// 빙산 녹이기
+	public static void bfs() {
 		Queue<int[]> queue = new LinkedList<>();
+		boolean[][] visited = new boolean[N][M];
 
-		queue.offer(new int[] { x, y });
-		visited[y][x] = true;
+		for (int i = 0; i < N; ++i) {
+			for (int j = 0; j < M; ++j)
+				if (map[i][j] != 0) {
+					queue.offer(new int[] { j, i });
+					visited[i][j] = true;
+				}
+		}
 
 		while (!queue.isEmpty()) {
 			int cur[] = queue.poll();
@@ -110,12 +115,6 @@ public class Main_G4_2573_빙산 {
 				if (nx >= 0 && ny >= 0 && nx < M && ny < N) {
 					if (map[ny][nx] == 0 && !visited[ny][nx]) {
 						map[cury][curx] = map[cury][curx] > 0 ? map[cury][curx] - 1 : 0;
-
-					} else {
-						if (!visited[ny][nx]) {
-							queue.offer(new int[] { nx, ny });
-							visited[ny][nx] = true;
-						}
 					}
 				}
 			}
