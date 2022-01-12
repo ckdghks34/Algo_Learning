@@ -84,7 +84,11 @@ public class Main_G3_11779_최소비용구하기2 {
 		while (!queue.isEmpty()) {
 			int[] current = queue.poll();
 			int node = current[0];
-
+			
+			// 도착하면 while 종료
+			if(node == end)
+				break;
+			
 			for (int i = 0; i < list.get(node).size(); ++i) {
 				int cost = distance[node] + list.get(node).get(i)[1];
 
