@@ -13,7 +13,8 @@ import java.util.StringTokenizer;
 public class Main_G4_6087_레이저통신 {
 	static int H, W;
 	static int[][] map;
-	static boolean[][] visited;
+	static int[][] visited;
+	static final int INF = Integer.MAX_VALUE / 2;
 	static ArrayList<int[]> list = new ArrayList<>();
 	// 상하좌우
 	static int[] dx = { 0, 0, -1, 1 };
@@ -30,11 +31,13 @@ public class Main_G4_6087_레이저통신 {
 		H = Integer.parseInt(st.nextToken());
 
 		map = new int[H][W];
-		visited = new boolean[H][W];
-		int min = Integer.MAX_VALUE / 2;
+		visited = new int[H][W];
+
+		int min = INF;
 
 		for (int i = 0; i < H; ++i) {
 			String str = br.readLine();
+			Arrays.fill(visited[i], INF);
 			for (int j = 0; j < W; ++j) {
 				char tmp = str.charAt(j);
 
@@ -51,6 +54,7 @@ public class Main_G4_6087_레이저통신 {
 		}
 		int[] start = list.get(0);
 		min = dijkstra(start[0], start[1]);
+
 		sb.append(min);
 		bw.write(sb.toString());
 		bw.flush();
@@ -66,41 +70,56 @@ public class Main_G4_6087_레이저통신 {
 			}
 		});
 		int[] end = list.get(1);
-		int cnt = 0;
+		int cnt = INF;
+
 		queue.offer(new int[] { x, y, 0, -1 });
-		visited[y][x] = true;
+		visited[y][x] = 0;
 
 		while (!queue.isEmpty()) {
 			int[] current = queue.poll();
-			int curx = current[0];
-			int cury = current[1];
-			int curcnt = current[2];
-			int curDirection = current[3];
+			int curx = current[0]; // 현재 x좌표
+			int cury = current[1]; // 현재 y좌표
+			int curcnt = current[2]; // 현재 거울 갯수
+			int curDirection = current[3]; // 현재 방향
 
+			// 도착했을 때
 			if (curx == end[0] && cury == end[1]) {
+				// 우선순위 큐로 거울갯수가 최소 인 경우 먼저 탐색하기 때문에
+				// 가장 먼저 도착했을 때가 최소 갯수
 				cnt = curcnt;
-				return cnt;
+				break;
 			}
 
 			for (int i = 0; i < 4; ++i) {
 				int nx = curx + dx[i];
 				int ny = cury + dy[i];
 
+				// 맵 안에 있으면
 				if (nx >= 0 && ny >= 0 && nx < W && ny < H) {
-					if (!visited[ny][nx]) {
-						if (map[ny][nx] != -1) {
-							if (curDirection != -1) {
-								if (i != curDirection) {
-									queue.offer(new int[] { nx, ny, curcnt + 1, i });
-								} else {
-									queue.offer(new int[] { nx, ny, curcnt, i });
-								}
-							} else {
+					// 벽이 아니면
+					if (map[ny][nx] != -1) {
+						// 같은 방향이거나, 처음 시작일 때
+						if (i == curDirection || curDirection == -1) {
+							// 현재 거울의 갯수가 기존에 방문했을 때 거울 갯수 보다 적으면
+							if (visited[ny][nx] >= curcnt) {
+								// 거울 갯수 교체
+								visited[ny][nx] = curcnt;
+								// 다시 탐색
 								queue.offer(new int[] { nx, ny, curcnt, i });
 							}
 						}
+						// 다른 방향일 때
+						else {
+							// 방향이 바뀌기 때문에 거울 갯수 1 추가
+							// 현재 거울의 갯수가 기존에 방문했을 때 거울 갯수 보다 적으면
+							if (visited[ny][nx] >= curcnt + 1) {
+								// 거울 개수 교체
+								visited[ny][nx] = curcnt + 1;
+								// 다시 탐색
+								queue.offer(new int[] { nx, ny, curcnt + 1, i });
+							}
+						}
 					}
-
 				}
 			}
 		}
