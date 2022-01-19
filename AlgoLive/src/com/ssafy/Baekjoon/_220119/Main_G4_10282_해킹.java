@@ -5,108 +5,92 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
-public class Main_G4_10282_해킹{
-	static int H, W;
-	static int[][] map;
-	static boolean[][] visited;
-	static ArrayList<int[]> list = new ArrayList<>();
-	// 상하좌우
-	static int[] dx = { 0, 0, -1, 1 };
-	static int[] dy = { -1, 1, 0, 0 };
+public class Main_G4_10282_해킹 {
+	static int T;
+	static ArrayList<ArrayList<int[]>> list;
+	static int[] distance;
+	static final int INF = Integer.MAX_VALUE / 2;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		StringBuilder sb = new StringBuilder();
+		StringTokenizer st;
+		T = Integer.parseInt(br.readLine());
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n, d, c;
+		for (int tc = 1; tc <= T; ++tc) {
+			st = new StringTokenizer(br.readLine());
+			n = Integer.parseInt(st.nextToken());
+			d = Integer.parseInt(st.nextToken());
+			c = Integer.parseInt(st.nextToken());
+			list = new ArrayList<>();
+			distance = new int[n + 1];
+			for (int i = 0; i <= n; ++i) {
+				list.add(new ArrayList<>());
+			}
 
-		W = Integer.parseInt(st.nextToken());
-		H = Integer.parseInt(st.nextToken());
+			for (int i = 0; i < d; ++i) {
+				st = new StringTokenizer(br.readLine());
 
-		map = new int[H][W];
-		visited = new boolean[H][W];
-		int min = Integer.MAX_VALUE / 2;
+				int to = Integer.parseInt(st.nextToken());
+				int from = Integer.parseInt(st.nextToken());
+				int weight = Integer.parseInt(st.nextToken());
 
-		for (int i = 0; i < H; ++i) {
-			String str = br.readLine();
-			for (int j = 0; j < W; ++j) {
-				char tmp = str.charAt(j);
+				list.get(from).add(new int[] { to, weight });
+			}
 
-				switch (tmp) {
-				case 'C':
-					map[i][j] = 1;
-					list.add(new int[] { j, i });
-					break;
-				case '*':
-					map[i][j] = -1;
-					break;
+			dijkstra(c);
+			int time = 0;
+			int count = 0;
+			for (int i = 1; i <= n; ++i) {
+				if (distance[i] != INF) {
+					count++;
+					time = Math.max(distance[i], time);
 				}
 			}
+			sb.append(count).append(" ").append(time).append("\n");
 		}
-		int[] start = list.get(0);
-		min = dijkstra(start[0], start[1]);
-		sb.append(min);
+
 		bw.write(sb.toString());
 		bw.flush();
 		bw.close();
 		br.close();
 	}
 
-	static int dijkstra(int x, int y) {
+	static void dijkstra(int start) {
 		PriorityQueue<int[]> queue = new PriorityQueue<>(new Comparator<int[]>() {
 			@Override
 			public int compare(int[] o1, int[] o2) {
-				return o1[2] - o2[2];
+				return o1[1] - o2[1];
 			}
 		});
-		int[] end = list.get(1);
-		int cnt = 0;
-		queue.offer(new int[] { x, y, 0, -1 });
-		visited[y][x] = true;
+
+		Arrays.fill(distance, INF);
+		distance[start] = 0;
+
+		queue.offer(new int[] { start, 0 });
 
 		while (!queue.isEmpty()) {
 			int[] current = queue.poll();
-			int curx = current[0];
-			int cury = current[1];
-			int curcnt = current[2];
-			int curDirection = current[3];
 
-			if (curx == end[0] && cury == end[1]) {
-				cnt = curcnt;
-				return cnt;
-			}
+			if (distance[current[0]] < current[1])
+				continue;
 
-			for (int i = 0; i < 4; ++i) {
-				int nx = curx + dx[i];
-				int ny = cury + dy[i];
+			for (int i = 0; i < list.get(current[0]).size(); ++i) {
+				int cost = distance[current[0]] + list.get(current[0]).get(i)[1];
 
-				if (nx >= 0 && ny >= 0 && nx < W && ny < H) {
-					if (!visited[ny][nx]) {
-						if (map[ny][nx] != -1) {
-							if (curDirection != -1) {
-								if (i != curDirection) {
-									queue.offer(new int[] { nx, ny, curcnt + 1, i });
-									visited[ny][nx] = true;
-								} else {
-									queue.offer(new int[] { nx, ny, curcnt, i });
-									visited[ny][nx] = true;
-								}
-							} else {
-								queue.offer(new int[] { nx, ny, curcnt, i });
-								visited[ny][nx] = true;
-							}
-						}
-					}
+				if (cost < distance[list.get(current[0]).get(i)[0]]) {
+					distance[list.get(current[0]).get(i)[0]] = cost;
+					queue.offer(new int[] { list.get(current[0]).get(i)[0], cost });
 
 				}
 			}
 		}
-
-		return cnt;
 	}
 }
