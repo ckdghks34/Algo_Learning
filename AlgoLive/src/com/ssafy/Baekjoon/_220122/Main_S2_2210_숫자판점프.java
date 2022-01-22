@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 public class Main_S2_2210_숫자판점프 {
@@ -14,7 +14,8 @@ public class Main_S2_2210_숫자판점프 {
 	public static int[] dx = { 0, 0, -1, 1 };
 	public static int[] dy = { -1, 1, 0, 0 };
 
-	public static ArrayList<String> list = new ArrayList<>();
+//	public static ArrayList<String> list = new ArrayList<>();
+	public static HashMap<String, String> hashmap = new HashMap<>();
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,7 +35,7 @@ public class Main_S2_2210_숫자판점프 {
 			}
 		}
 
-		bw.write(Integer.toString(list.size()));
+		bw.write(Integer.toString(hashmap.size()));
 		bw.flush();
 		bw.close();
 		br.close();
@@ -42,18 +43,7 @@ public class Main_S2_2210_숫자판점프 {
 
 	public static void dfs(int x, int y, int cnt, String str) {
 		if (cnt == 6) {
-			boolean check = false;
-
-			for (int i = 0; i < list.size(); ++i) {
-				if (list.get(i).equals(str)) {
-					check = true;
-					break;
-				}
-			}
-			
-			if (!check)
-				list.add(str);
-
+			hashmap.put(str, str);
 			return;
 		}
 
@@ -63,7 +53,6 @@ public class Main_S2_2210_숫자판점프 {
 
 			if (nx >= 0 && ny >= 0 && nx < N && ny < N) {
 				String tmp = str + map[ny][nx];
-
 				dfs(nx, ny, cnt + 1, tmp);
 			}
 		}
