@@ -1,4 +1,4 @@
-package com.ssafy.Baekjoon._220122;
+package com.ssafy.Baekjoon._220123;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -66,9 +66,9 @@ public class Main_S1_1325_효율적인해킹 {
 
 		for (int i = 0; i < list.get(node).size(); ++i) {
 			if (!visited[list.get(node).get(i)]) {
-				answer[start]++;
 				visited[list.get(node).get(i)] = true;
 				dfs(list.get(node).get(i), start, visited);
+				answer[start]++;
 			}
 		}
 	}
