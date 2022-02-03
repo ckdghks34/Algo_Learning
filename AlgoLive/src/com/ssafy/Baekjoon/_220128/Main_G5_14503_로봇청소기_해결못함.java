@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class Main_G5_14503_로봇청소기 {
+public class Main_G5_14503_로봇청소기_해결못함 {
     public static int N, M;
     public static int r, c, d;
     public static int count;
@@ -43,17 +43,17 @@ public class Main_G5_14503_로봇청소기 {
         }
     }
 
-    public static void cleaner(int x, int y, int dir) {
-
-        Queue<int[]> queue = new LinkedList<>();
-
-        queue.offer(new int[]{x, y, dir, cnt});
-        int leftd = dir - 1 >= 0 ? dir - 1 : 3;
-        int nx = x + dx[lefd];
-        int ny = y + dy[lefd];
-
-        if (nx > 0 && ny > 0 && nx < M - 1 && ny < N - 1) {
-            if (map[ny][nx] == 1)
-        }
-    }
+//    public static void cleaner(int x, int y, int dir) {
+//
+//        Queue<int[]> queue = new LinkedList<>();
+//
+//        queue.offer(new int[]{x, y, dir, cnt});
+//        int leftd = dir - 1 >= 0 ? dir - 1 : 3;
+//        int nx = x + dx[lefd];
+//        int ny = y + dy[lefd];
+//
+//        if (nx > 0 && ny > 0 && nx < M - 1 && ny < N - 1) {
+//            if (map[ny][nx] == 1)
+//        }
+//    }
 }
