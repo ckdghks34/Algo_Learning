@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.StringTokenizer;
 
+// 참고 사이트 : https://st-lab.tistory.com/155
 public class Main_G5_2981_검문 {
     public static int[] data;
     public static int N;
