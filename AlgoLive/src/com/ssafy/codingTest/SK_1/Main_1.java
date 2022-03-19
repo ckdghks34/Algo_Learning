@@ -1,4 +1,4 @@
-package com.ssafy.codingTest.SK;
+package com.ssafy.codingTest.SK_1;
 
 import java.util.Arrays;
 import java.util.Comparator;
