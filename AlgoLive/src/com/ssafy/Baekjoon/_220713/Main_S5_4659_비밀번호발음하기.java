@@ -13,6 +13,9 @@ public class Main_S5_4659_비밀번호발음하기 {
         반복을 통해 값 확인할 때 시간복잡도 O(n), n은 데이터 수
         HashMap의 contains 함수 사용시 시간복잡도 O(1)
      */
+    /*
+    * 문득 든 생각인데, 모음은 어짜피 정해져 있으니까 최대 5번이 끝인데, 그냥 반복돌려도 상관없지않을까..
+    * */
    public static HashMap<Character, Character> vowel = new HashMap<Character, Character>() {{
         put('a', 'a');
         put('e', 'e');
