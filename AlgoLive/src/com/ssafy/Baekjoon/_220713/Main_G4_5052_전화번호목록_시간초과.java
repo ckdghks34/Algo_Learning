@@ -7,7 +7,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Main_G4_5052_전화번호목록 {
+public class Main_G4_5052_전화번호목록_시간초과 {
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,17 +26,18 @@ public class Main_G4_5052_전화번호목록 {
                 list.add(br.readLine());
 
             Collections.sort(list);
+//            list.sort(new Comparator<String>() {
+//                @Override
+//                public int compare(String o1, String o2) {
+//                    return o1.length() - o2.length();
+//                }
+//            });
+
             for (int j = 0; j < n - 1; ++j) {
-                String cur = list.get(j);
-                String next = list.get(j + 1);
-
-                if (cur.length() < next.length()) {
-                    if (cur.equals(next.substring(0, cur.length()))) {
-                        valid = false;
-                        break;
-                    }
+                if (!checkingCase(list, j)) {
+                    valid = false;
+                    break;
                 }
-
             }
 
             if (valid)
@@ -48,5 +49,22 @@ public class Main_G4_5052_전화번호목록 {
         bw.write(sb.toString());
         bw.close();
         br.close();
+    }
+
+    public static boolean checkingCase(ArrayList<String> list, int index) {
+        String current = list.get(index);
+        char startChar = current.charAt(0);
+        int currentLength = current.length();
+
+        for (int i = index + 1; i < list.size(); ++i) {
+            String tmp = list.get(i);
+            if(currentLength < tmp.length()) {
+                if (startChar == tmp.charAt(0)) {
+                    if (current.equals(tmp.substring(0, currentLength)))
+                        return false;
+                }
+            }
+        }
+        return true;
     }
 }
