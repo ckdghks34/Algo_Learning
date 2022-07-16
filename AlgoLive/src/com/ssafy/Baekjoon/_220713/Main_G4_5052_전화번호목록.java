@@ -36,7 +36,6 @@ public class Main_G4_5052_전화번호목록 {
                         break;
                     }
                 }
-
             }
 
             if (valid)
