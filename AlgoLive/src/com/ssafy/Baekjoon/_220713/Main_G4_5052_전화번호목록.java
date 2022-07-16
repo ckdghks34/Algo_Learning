@@ -30,7 +30,10 @@ public class Main_G4_5052_전화번호목록 {
                 String cur = list.get(j);
                 String next = list.get(j + 1);
 
+                // 길이가 같으면 비교할 필요 없음.
                 if (cur.length() < next.length()) {
+                    // 앞선 문자열의 길이 만큼 뒷 문자열을 짤라 같은지 확인
+                    // 같으면 일관성이 없음
                     if (cur.equals(next.substring(0, cur.length()))) {
                         valid = false;
                         break;
