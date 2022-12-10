@@ -28,6 +28,7 @@ public class C1_CombinationBasicTest {
 			System.out.println(Arrays.toString(numbers));
 			return;
 		}
+
 		for(int i = start; i < N;++i)
 		{
 			numbers[cnt] = input[i];

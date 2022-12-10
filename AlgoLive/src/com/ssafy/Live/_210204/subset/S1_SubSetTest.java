@@ -13,10 +13,12 @@ public class S1_SubSetTest {
 		N = sc.nextInt();
 		input = new int[N];
 		isSelected = new boolean[N];
+
 		for(int i =0 ; i < N; ++i)
 		{
 			input[i] = sc.nextInt();
 		}
+
 		generateSubset(0);
 		System.out.println("총 경우의 수 : " + totalCnt);
 	}

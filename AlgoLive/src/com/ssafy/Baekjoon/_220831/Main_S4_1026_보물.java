@@ -32,8 +32,8 @@ public class Main_S4_1026_보물 {
                     B[j] = Integer.parseInt(st.nextToken());
                 }
         }
-        Arrays.sort(A);
-        Arrays.sort(B);
+        Arrays.sort(A); // 0 1 1 1 6
+        Arrays.sort(B); // 1 2 3 7 8
 
         int sum = 0;
         for(int i = 0; i < N;++i)

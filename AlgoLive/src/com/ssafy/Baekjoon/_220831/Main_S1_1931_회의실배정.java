@@ -3,9 +3,11 @@ package com.ssafy.Baekjoon._220831;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Main_S1_1931_회의실배정 {
+
     static class Meeting implements Comparable<Meeting>{
         int startTime;
         int endTime;
@@ -15,13 +17,15 @@ public class Main_S1_1931_회의실배정 {
             this.endTime = endTime;
         }
 
+        // 1순위는 끝나는 시간 오름차순
+        // 2순위는 시작 시간 오름차순
+        @Override
         public int compareTo(Meeting m){
             if(this.endTime == m.endTime)
                 return this.startTime - m.startTime;
 
             return this.endTime - m.endTime;
         }
-
     }
     public static void main(String[] args) throws Exception{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));

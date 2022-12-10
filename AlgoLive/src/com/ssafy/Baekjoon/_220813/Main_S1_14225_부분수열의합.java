@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 public class Main_S1_14225_부분수열의합 {
     static HashMap<Integer,Integer> hashmap = new HashMap<>();
+
     static int N;
     static int[] map;
     public static void main(String[] args) throws Exception{

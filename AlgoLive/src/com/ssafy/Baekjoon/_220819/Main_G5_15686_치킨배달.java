@@ -36,9 +36,9 @@ public class Main_G5_15686_치킨배달 {
 
             for (int j = 0; j < N; ++j) {
                 int cur = Integer.parseInt(st.nextToken());
-                if (cur == 1)
+                if (cur == 2)
                     chicken.add(new Location(j, i));
-                else if (cur == 2)
+                else if (cur == 1)
                     house.add(new Location(j, i));
             }
         }

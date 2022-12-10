@@ -25,11 +25,11 @@ public class P1_PermutationBasicTest {
 	}
 
 	private static void permutation(int cnt) {
-		
 		if(cnt == N) {
 			System.out.println(Arrays.toString(numbers));
 			return;
 		}
+
 		for (int i = 0; i < N; ++i) {
 			if (isSelected[i])
 				continue;

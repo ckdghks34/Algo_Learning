@@ -1,7 +1,4 @@
 package com.ssafy.Baekjoon._220924;
-
-import com.ssafy.Live._210322.dijkstra.SD2_Dijkstra_PQ;
-
 import java.io.*;
 import java.util.Arrays;
 import java.util.PriorityQueue;

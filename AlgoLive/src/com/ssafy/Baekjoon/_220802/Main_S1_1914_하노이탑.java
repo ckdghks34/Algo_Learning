@@ -39,5 +39,4 @@ public class Main_S1_1914_하노이탑 {
         sb.append(from).append(" ").append(to).append("\n");
         HanoiTop(K - 1, tmp, from, to);
     }
-
 }

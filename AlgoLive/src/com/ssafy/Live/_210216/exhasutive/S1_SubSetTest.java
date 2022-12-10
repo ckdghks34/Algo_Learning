@@ -34,6 +34,7 @@ public class S1_SubSetTest {
 		// 선택
 		isSelected[cnt] = true;
 		generateSubset(cnt+1);
+
 		// 비선택
 		isSelected[cnt] = false;
 		generateSubset(cnt+1);
