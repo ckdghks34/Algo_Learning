@@ -38,7 +38,6 @@ public class Main_G5_17609_회문 {
         // Palindrome 인지 확인한다.(str 그대로)
         while(start <= end)
         {
-
             char front = str.charAt(start);
             char back = str.charAt(end);
 
@@ -60,7 +59,6 @@ public class Main_G5_17609_회문 {
                 // 둘다 회문이 아닐 경우 state == 2
                 else
                     state = 2;
-
                 break;
             }
 

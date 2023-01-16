@@ -39,9 +39,10 @@ public class Main_G4_3190_뱀 {
         }
         map[1][1] = 1;
         snake.offer(new Snake(1, 1));
-        int time = 1;
+        int time = 0;
 
         while (move()) {
+            time++;
             if (!dirList.isEmpty()) {
                 if (time == dirList.peek().sec) {
                     Direction curDir = dirList.poll();
@@ -51,7 +52,7 @@ public class Main_G4_3190_뱀 {
                         snake.peekFirst().turnLeft();
                 }
             }
-            time++;
+//            time++;
         }
 
         bw.write(Integer.toString(time));
