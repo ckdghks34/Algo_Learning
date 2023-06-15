@@ -38,7 +38,7 @@ public class PathWithRobot {
         map = new int[H][W];
 
         List<Point> list = new ArrayList<>();
-
+        Robot startRobot = null;
         for (int h = 0; h < H; ++h) {
             char[] tmp = new String(br.readLine()).toCharArray();
 
@@ -52,24 +52,38 @@ public class PathWithRobot {
             }
         }
 
-        for (Point point : list) {
-            boolean flag = false;
-
+        // 시작 지점 찾기
+        for (Point p : list) {
+            int count = 0;
+            int dir = 0;
             for (int d = 0; d < 4; ++d) {
-                String orders = bfs(new Robot(point, d, 0, "", new boolean[H][W]), list.size());
-
-                if (orders != null) {
-                    sb.append(point.y).append(" ").append(point.x).append("\n");
-                    sb.append(direction.get(d)).append("\n");
-                    sb.append(orders);
-                    flag = true;
+                if (count > 1)
                     break;
+
+                int nx = p.x + dx[d];
+                int ny = p.y + dy[d];
+
+                if (0 <= nx && nx < W && 0 <= ny && ny < H) {
+                    if (map[ny][nx] == 1) {
+                        count++;
+                        dir = d;
+                    }
                 }
             }
 
-            if (flag)
+            if (count == 1) {
+                startRobot = new Robot(p, dir, "");
                 break;
+            }
         }
+
+        sb.append(startRobot.point.y + 1).append(" ").append(startRobot.point.x + 1).append("\n");
+        sb.append(direction.get(startRobot.dir)).append("\n");
+
+        boolean[][] visited = new boolean[H][W];
+
+        sb.append(bfs(startRobot, visited));
+
 
         bw.write(sb.toString());
         bw.flush();
@@ -77,73 +91,72 @@ public class PathWithRobot {
         br.close();
     }
 
-    public static String bfs(Robot robot, int move) {
+    public static String bfs(Robot robot, boolean[][] visited) {
+
         PriorityQueue<Robot> queue = new PriorityQueue<>();
 
-        robot.visited[robot.point.y][robot.point.x] = true;
-        robot.moveCount = 1;
-
         queue.offer(robot);
+        visited[robot.point.y][robot.point.x] = true;
 
         while (!queue.isEmpty()) {
             Robot current = queue.poll();
+            char lastChar;
+            if(current.order.length() > 1)
+                lastChar = current.order.charAt(current.order.length() - 1);
+            else
+                lastChar = 'A';
 
-            if (current.moveCount == move)
-                return current.order.toString();
+            int nx = current.point.x + dx[current.dir];
+            int ny = current.point.y + dy[current.dir];
+            int nnx = current.point.x + dx[current.dir] * 2;
+            int nny = current.point.y + dy[current.dir] * 2;
 
-            for (int o = -1; o < 2; ++o) {
-                switch (o) {
-                    case -1:
+            if (lastChar == 'L' || lastChar == 'R') {
+                visited[ny][nx] = true;
+                visited[nny][nnx] = true;
 
-                        int newDir = current.dir == 0 ? 3 : current.dir - 1;
-                        queue.offer(new Robot(current.point, newDir, current.moveCount, current.order + "L", current.visited));
-                        break;
-                    case 0:
-                        boolean movePossible = true;
+                queue.offer(new Robot(new Point(nnx, nny), current.dir, current.order + "A"));
+            } else {
+                if ((0 <= nx && nx < W && 0 <= ny && ny < H) && map[ny][nx] == 1) {
+                    visited[ny][nx] = true;
+                    visited[nny][nnx] = true;
 
-                        for (int m = 1; m <= 2; ++m) {
-                            int nx = current.point.x + dx[current.dir] * m;
-                            int ny = current.point.y + dy[current.dir] * m;
+                    queue.offer(new Robot(new Point(nnx, nny), current.dir, current.order + "A"));
+                } else {
+                    int nextDir = findDirection(current.point, visited);
 
-                            if ((0 <= nx && nx < W && 0 <= ny && ny < H) && map[ny][nx] == 1) {
-                                if (current.visited[ny][nx]) {
-                                    movePossible = false;
-                                    break;
-                                }
-                            } else {
-                                movePossible = false;
-                                break;
-                            }
-                        }
+                    if (nextDir == -1)
+                        return current.order;
 
-                        if (movePossible) {
-                            boolean[][] tmp = new boolean[H][W];
-                            for (int i = 0; i < H; ++i)
-                                tmp[i] = Arrays.copyOf(current.visited[i], W);
-
-                            int nextX = 0;
-                            int nextY = 0;
-                            for (int m = 1; m <= 2; ++m) {
-                                nextX = current.point.x + dx[current.dir] * m;
-                                nextY = current.point.y + dy[current.dir] * m;
-
-                                tmp[nextY][nextX] = true;
-                            }
-
-                            queue.offer(new Robot(new Point(nextY, nextX), current.dir, current.moveCount + 2, current.order + "A", tmp));
-                        }
-
-                        break;
-                    case 1:
-                        int d = current.dir == 3 ? 0 : current.dir + 1;
-                        queue.offer(new Robot(current.point, d, current.moveCount, current.order + "R", current.visited));
-                        break;
+                    char nextOrder;
+                    if(current.dir == 0 && nextDir == 3)
+                        nextOrder = 'L';
+                    else if (current.dir < nextDir)
+                        nextOrder = 'R';
+                    else if (current.dir == 3 && nextDir == 0)
+                        nextOrder = 'R';
+                    else
+                        nextOrder = 'L';
+                    queue.offer(new Robot(current.point, nextDir, current.order + nextOrder));
                 }
-
             }
         }
         return null;
     }
+
+    public static int findDirection(Point p, boolean[][] visited) {
+        for (int d = 0; d < 4; ++d) {
+            int nx = p.x + dx[d];
+            int ny = p.y + dy[d];
+
+            if (0 <= nx && nx < W && 0 <= ny && ny < H) {
+                if (map[ny][nx] == 1 && !visited[ny][nx])
+                    return d;
+            }
+        }
+        return -1;
+    }
+
 
     static class Point {
         int x;
@@ -160,24 +173,16 @@ public class PathWithRobot {
 
         int dir;
 
-        int moveCount;
-
         String order;
 
-        boolean[][] visited;
-
-        Robot(Point point, int dir, int moveCount, String order, boolean[][] visited) {
+        Robot(Point point, int dir, String order) {
             this.point = point;
             this.dir = dir;
-            this.moveCount = moveCount;
             this.order = order;
-            this.visited = visited;
         }
 
         public int compareTo(Robot r) {
-            if (r.moveCount == this.moveCount)
-                return this.order.length() - r.order.length();
-            return r.moveCount - this.moveCount;
+            return this.order.length() - r.order.length();
         }
     }
 }
