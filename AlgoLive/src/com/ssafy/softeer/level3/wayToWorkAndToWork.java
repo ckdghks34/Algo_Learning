@@ -1,16 +1,16 @@
 package com.ssafy.softeer.level3;
 
+import javax.sql.rowset.serial.SerialBlob;
 import java.io.*;
+import java.sql.Array;
 import java.util.*;
 
 public class wayToWorkAndToWork {
 
-    static Set<Integer> toWork = new TreeSet<>();
-    static Set<Integer> toHome = new TreeSet<>();
-
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+        StringBuilder sb = new StringBuilder();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
@@ -29,60 +29,51 @@ public class wayToWorkAndToWork {
             map[from][to] = 1;
             mapReverse[to][from] = 1;
         }
+
         st = new StringTokenizer(br.readLine());
         int home = Integer.parseInt(st.nextToken()) - 1;
         int work = Integer.parseInt(st.nextToken()) - 1;
 
-        addVertex(home, work, 0, map, new boolean[n]);
-        addVertex(work, home, 1, map, new boolean[n]);
-        addVertex(home, work, 1, mapReverse, new boolean[n]);
-        addVertex(work, home, 0, mapReverse, new boolean[n]);
+        // 출근길 정방향 탐색
+        Set<Integer> toWorkA = new TreeSet<>();
+        addVertex(home, work, toWorkA, map, new boolean[n]);
+        // 출근길 역방향 탐색
+        Set<Integer> toWorkB = new TreeSet<>();
+        addVertex(home, work, toWorkB, mapReverse, new boolean[n]);
 
-        for (int v : toWork) {
-            if (toHome.contains(v))
-                result++;
-        }
+        Set<Integer> toHomeA = new TreeSet<>();
+        addVertex(work, home, toHomeA, map, new boolean[n]);
 
+        Set<Integer> toHomeB = new TreeSet<>();
+        addVertex(work, home, toHomeB, mapReverse, new boolean[n]);
+
+        toWorkA.retainAll(toWorkB);
+        toHomeA.retainAll(toHomeB);
+
+        toWorkA.retainAll(toHomeA);
+
+//        toWorkA.remove(home);
+//        toWorkA.remove(work);
+        result = toWorkA.size();
         bw.write(Integer.toString(result));
         bw.flush();
         bw.close();
         br.close();
-
-
     }
 
-    // way == 0 : 출근길, way == 1 : 퇴근길
-//    public static void addVertex(int current, int end, int way, int[][] map, List<Integer> passedBy, boolean[] visited) {
-//        if (current == end) {
-//            for (int v : passedBy) {
-//                if (way == 0) {
-//                    if (!toWork.contains(v))
-//                        toWork.add(v);
-//                } else {
-//                    if (!toHome.contains(v))
-//                        toHome.add(v);
-//                }
-//            }
-//            return;
-//        }
-
-    // way == 0 : 출근길, way == 1 : 퇴근길
-    public static void addVertex(int current, int end, int way, int[][] map, boolean[] visited) {
+    // way == 0 : 정방향, way == 1 : 역방향
+    public static void addVertex(int current, int end, Set<Integer> set, int[][] map, boolean[] visited) {
         if (current == end) {
             return;
         }
 
         visited[current] = true;
-        if (way == 0) {
-            toWork.add(current);
-        } else {
-            toHome.add(current);
-        }
+
+        set.add(current);
 
         for (int i = 0; i < map.length; ++i) {
             if (map[current][i] == 1 && !visited[i]) {
-
-                addVertex(i, end, way, map, visited);
+                addVertex(i, end, set,map, visited);
             }
         }
     }
